@@ -9,18 +9,20 @@ function App() {
   const [error, setError] = useState(null)
   
   useEffect(() => {
-    async function fetchAdvice ()  {
+     const fetchAdvice =async () => {
       
       try {
-        const response = await fetch('https://api.adviceslip.com/advice')
+        const response = await fetch('https://api.adviceslip.com/advic')
         const data = await response.json()
         setAdvice(data.slip.advice)
       } catch (error) {
+        setAdvice('')
+       
        setError('Error fetching advice')
-       setLoading(false)
+      
       } 
       
-    } fetchAdvice()}, [])
+    }; fetchAdvice();}, [])
 
   return (
     <>
@@ -28,12 +30,15 @@ function App() {
       <button onClick={
        async ()=>{
         setAdvice('')
+        setError(null)
        setLoading(true)
         try {
           const response = await fetch('https://api.adviceslip.com/advice')
           const data = await response.json()
           setAdvice(data.slip.advice)
         } catch (error) {
+          setAdvice('')
+          setError("Error fetching advice")
           console.error('Error fetching advice:', error)
           
         }
@@ -50,7 +55,8 @@ function App() {
         aria-label="Loading Spinner"
         data-testid="loader"
       /> }
-  
+  {error && <p>{error}</p>}
+     
   
       <p>{advice}</p>
      </div>

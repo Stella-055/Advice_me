@@ -16,7 +16,8 @@ function App() {
         const data = await response.json()
         setAdvice(data.slip.advice)
       } catch (error) {
-        console.error('Error fetching advice:', error)
+       setError('Error fetching advice')
+       setLoading(false)
       } 
       
     } fetchAdvice()}, [])
@@ -24,7 +25,6 @@ function App() {
   return (
     <>
      <div>
-      
       <button onClick={
        async ()=>{
         setAdvice('')
